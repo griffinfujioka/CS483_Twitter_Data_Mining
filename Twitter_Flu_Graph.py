@@ -15,3 +15,21 @@ __author__ = """\n""".join(['Griffin Fujioka (fujiokag@hotmail.com)'])
 
 
 import networkx as nx
+import shlex            # for parsing lines of text   
+
+g=nx.Graph()        # Create an empty graph
+
+file=open('flu-vac_string.edgelist', 'r')
+
+
+while 1:
+    line = file.readline()
+    if not line:
+        break
+    else: tweet = shlex.split(line)
+    #g.add_node(tweet)       # Add each tweet to the graph as a node
+    print 'Source: ' + tweet[0]
+    print 'Target: ' + tweet[1]
+    print 'tweetCount: ' + tweet[2]
+    print ''
+

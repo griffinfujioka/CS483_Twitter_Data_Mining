@@ -69,20 +69,28 @@ print 'Drawing graph...'
 
 
 #Determine which node has the greatest out degree
-#Put all of the nodes in with the key=node name and value=out degree
-out_degree_dictionary = g.out_degree(g.nodes())
-max_node_name = out_degree_dictionary.keys()[0]
-max_node_out_degree = out_degree_dictionary.values()[0]
+out_degree_dictionary = g.out_degree(g.nodes())     #Put all of the nodes in with the key=node name and value=out degree
+max_od_node_name = out_degree_dictionary.keys()[0] 
+max_out_degree = out_degree_dictionary.values()[0]
 for key, value in out_degree_dictionary.iteritems():
-    print key + " " +  str(value)
-    if value > max_node_out_degree:
-        max_node_name = key
-        max_node_out_degree = value
+    #print key + " " +  str(value)
+    if value > max_out_degree:
+        max_od_node_name = key
+        max_out_degree = value
+   
+print 'Node with highest out degree: ' + max_od_node_name
 
-    
-print 'Node with highest out degree: ' + max_node_name
+in_degree_dictionary = g.in_degree(g.nodes())
+max_id_node_name = in_degree_dictionary.keys()[0]
+max_in_degree = in_degree_dictionary.values()[0]
+for key, value in in_degree_dictionary.iteritems():
+    print key + " " + str(value)
+    if value > max_in_degree:
+        max_id_node_name = key
+        max_in_degree = value
 
-
+print 'Node with highest in degree: ' + max_id_node_name
+        
 nx.draw(g)
 #plt.show()
 plt.savefig("graph.png")

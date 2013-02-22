@@ -17,8 +17,10 @@ __author__ = """\n""".join(['Griffin Fujioka (fujiokag@hotmail.com)'])
 import networkx as nx
 import shlex            # for parsing lines of text
 import matplotlib.pyplot as plt
+import sys
 
-g=nx.Graph()        # Create an empty graph
+print 'Welcome to Griffin''s Twitter Data Mining Program!'
+g=nx.DiGraph()        # Create an empty graph
 
 # Open the data file for reading 
 file=open('flu-vac_string.edgelist-short', 'r')
@@ -58,8 +60,32 @@ while 1:
                 g.add_node(target)      # We must add the target node first
                 g.add_edge(source, target, weight=tweetCount)
                 #print 'Added node ' + target + '. Edge added from ' + source + ' to ' + target
+
+
+print 'Graph contains ' + str(g.number_of_nodes()) + ' nodes.'
+print 'Graph contains ' + str(g.number_of_edges()) + ' edges.'
+print 'Drawing graph...'
                    
 
+
+#Determine which node has the greatest out degree
+#Put all of the nodes in with the key=node name and value=out degree
+out_degree_dictionary = g.out_degree(g.nodes())
+max_node_name = out_degree_dictionary.keys()[0]
+max_node_out_degree = out_degree_dictionary.values()[0]
+for key, value in out_degree_dictionary.iteritems():
+    print key + " " +  str(value)
+    if value > max_node_out_degree:
+        max_node_name = key
+        max_node_out_degree = value
+
+    
+print 'Node with highest out degree: ' + max_node_name
+
+
 nx.draw(g)
+#plt.show()
 plt.savefig("graph.png")
 
+print 'Graph saved as graph.png in directory where this script is contained'
+sys.exit()

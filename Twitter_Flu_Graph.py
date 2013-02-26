@@ -19,11 +19,13 @@ import shlex            # for parsing lines of text
 import matplotlib.pyplot as plt
 import sys
 
-print 'Welcome to Griffin''s Twitter Data Mining Program!'
+print 'Welcome to the Griffin Fujioka Twitter Data Mining Program!'
+print ''
+
 g=nx.DiGraph()        # Create an empty graph
 
 # Open the data file for reading 
-file=open('flu-vac_string.edgelist-short', 'r')
+file=open('flu-vac_string.edgelist', 'r')
 i = 0
 counter = 0
 temp = 0
@@ -64,13 +66,12 @@ while 1:
 
 print 'Graph contains ' + str(g.number_of_nodes()) + ' nodes.'
 print 'Graph contains ' + str(g.number_of_edges()) + ' edges.'
-print 'Drawing graph...'
-                   
+print 'Graph contains ' + str(nx.number_strongly_connected_components(g)) + ' strongly connected components.'
 
 
-#Determine which node has the greatest out degree
+# Determine which node has the greatest out degree
 out_degree_dictionary = g.out_degree(g.nodes())     #Put all of the nodes in with the key=node name and value=out degree
-max_od_node_name = out_degree_dictionary.keys()[0] 
+max_id_node_name = out_degree_dictionary.keys()[0] 
 max_out_degree = out_degree_dictionary.values()[0]
 for key, value in out_degree_dictionary.iteritems():
     #print key + " " +  str(value)
@@ -78,22 +79,34 @@ for key, value in out_degree_dictionary.iteritems():
         max_od_node_name = key
         max_out_degree = value
    
-print 'Node with highest out degree: ' + max_od_node_name
+print 'Node with highest out degree: ' + max_od_node_name + ' (' + str(max_out_degree) + ')'
 
+# Determine which node has the highest in degree
 in_degree_dictionary = g.in_degree(g.nodes())
 max_id_node_name = in_degree_dictionary.keys()[0]
 max_in_degree = in_degree_dictionary.values()[0]
 for key, value in in_degree_dictionary.iteritems():
-    print key + " " + str(value)
+    #print key + " " + str(value)
     if value > max_in_degree:
         max_id_node_name = key
         max_in_degree = value
 
-print 'Node with highest in degree: ' + max_id_node_name
-        
-nx.draw(g)
-#plt.show()
-plt.savefig("graph.png")
+print 'Node with highest in degree: ' + max_id_node_name + ' (' + str(max_in_degree) + ')'
 
-print 'Graph saved as graph.png in directory where this script is contained'
-sys.exit()
+
+
+# Determine the longest path
+h = nx.DiGraph(g);      # Create a copy of the graph
+for u,v in h.edges_iter():
+    h[u][v]['weight'] *= -1
+
+# Run Bellman-Ford algorithm
+
+print nx.bellman_ford(h, "drunk_bot")  #  two dictionaries keyed by node to predecessor in the path and to the distance from the source respectively
+#print nx.bellman_ford(h, "official_pax")
+
+print 'Drawing graph...'
+#nx.draw(g)
+plt.savefig("graph.png")
+print 'Graph saved as graph.png'
+

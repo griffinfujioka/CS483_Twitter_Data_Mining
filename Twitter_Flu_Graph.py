@@ -96,17 +96,18 @@ print 'Node with highest in degree: ' + max_id_node_name + ' (' + str(max_in_deg
 
 
 # Determine the longest path
-h = nx.DiGraph(g);      # Create a copy of the graph
-for u,v in h.edges_iter():
-    h[u][v]['weight'] *= -1
+#h = nx.DiGraph(g);          # Create a copy of the graph
+#for u,v in h.edges_iter():
+#    h[u][v]['weight'] *= -1    # Negate the weights of all of the edges 
 
 # Run Bellman-Ford algorithm
-
-print nx.bellman_ford(h, "drunk_bot")  #  two dictionaries keyed by node to predecessor in the path and to the distance from the source respectively
+#print nx.bellman_ford(h, "jonkeel")  #  two dictionaries keyed by node to predecessor in the path and to the distance from the source respectively
 #print nx.bellman_ford(h, "official_pax")
 
+print 'Diameter: ' + str(nx.diameter(g))
+
 print 'Drawing graph...'
-#nx.draw(g)
+nx.draw(g)
 plt.savefig("graph.png")
 print 'Graph saved as graph.png'
 
